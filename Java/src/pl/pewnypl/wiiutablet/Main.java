@@ -35,12 +35,15 @@ public class Main extends WebSocketServer {
 	float yFact=1;
 	
 	int packets=0;
+	int del=2;
 	
 	
 	public Main( int port ) throws UnknownHostException {
 		super( new InetSocketAddress( port ) );
 		try {
 			robot = new Robot();
+			robot.setAutoDelay(del);
+			robot.setAutoWaitForIdle(true);
 		} catch (AWTException e) {
 		}
 		xFact = (float)resX / (float)resWiiX;
@@ -53,6 +56,7 @@ public class Main extends WebSocketServer {
 
 	@Override
 	public void onOpen( WebSocket conn, ClientHandshake handshake ) {
+		packets=0;
 	}
 
 	@Override
@@ -76,7 +80,7 @@ public class Main extends WebSocketServer {
 			else if(lastState == 1)
 			{
 				lastState = 0;
-				robot.mouseRelease(InputEvent.BUTTON1_MASK);
+				robot.mouseRelease(InputEvent.BUTTON1_MASK);			
 			}
 		}
 		catch(Exception e)
