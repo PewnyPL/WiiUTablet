@@ -1,24 +1,21 @@
 package pl.pewnypl.wiiutablet;
 
-import java.io.BufferedReader;
+import java.awt.AWTException;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
-import java.util.Collection;
 
 import org.java_websocket.WebSocket;
-import org.java_websocket.WebSocketImpl;
 import org.java_websocket.framing.Framedata;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.InputEvent;
-
 /**
- * A simple WebSocketServer implementation. Keeps track of a "chatroom".
+ * Simple server to use your Wii U as a graphics tablet
  */
 public class Main extends WebSocketServer {
 
@@ -40,6 +37,11 @@ public class Main extends WebSocketServer {
 	
 	public Main( int port ) throws UnknownHostException {
 		super( new InetSocketAddress( port ) );
+		
+		GraphicsDevice display = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		resX = display.getDisplayMode().getWidth();
+		resY = display.getDisplayMode().getHeight();
+
 		try {
 			robot = new Robot();
 			robot.setAutoDelay(del);
